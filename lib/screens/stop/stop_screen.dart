@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gtfs_db/gtfs_db.dart';
 import 'package:transit/database/database_service.dart';
 import 'package:transit/models/db.dart';
+import 'package:transit/screens/trip/trip_screen.dart';
 import 'package:transit/widgets/app_future_loader.dart';
+import 'package:transit/navigator_routes.dart';
 
 class StopScreen extends StatelessWidget {
   final Stop stop;
@@ -57,9 +59,56 @@ class TripStopTimeListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Exercise 2 and 4
-    final tripHeadSign = trip.trip_headsign ?? '';
+    final routeShortName = route.route_short_name ?? '';
+    final routeLongName = route.route_long_name;
+    final routeTextColor = route.parsedRouteTextColor;
+    final routeColor = route.parsedRouteColor;
+    final tripHeadsign = trip.trip_headsign ?? '';
+    final arrivalTime = stopTime.arrival_time;
 
-    return Text('$tripHeadSign: ${stopTime.departure_time}');
+    final Container tripNumberContainer = Container(
+      child: Text(
+          routeShortName,
+          style: TextStyle(color: routeTextColor),
+      ),
+
+      alignment: Alignment.center,
+      width: 35,
+      height: 35,
+      decoration: BoxDecoration(
+          color: routeColor,
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(10.0),
+              bottomRight: Radius.circular(20.0),
+              topLeft: Radius.circular(20.0),
+              bottomLeft: Radius.circular(10.0)
+          ),
+      ),
+    );
+
+    /*final titleColumn = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(tripHeadsign, style: TextStyle(fontWeight: FontWeight.bold),),
+        Text(routeLongName),
+      ]
+    );*/
+
+    final arrivalTimeText = Text(arrivalTime.substring(0, arrivalTime.length-3));
+
+    return ListTile(
+      leading: tripNumberContainer,
+      //title: titleColumn,
+      title: Text(tripHeadsign),
+      subtitle: Text(routeLongName),
+      trailing: arrivalTimeText,
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          NavigatorRoutes.routeTrip,
+          arguments: TripScreenArguments(route:route, trip:trip, stop:stop),
+        );
+      },
+    );
   }
 }

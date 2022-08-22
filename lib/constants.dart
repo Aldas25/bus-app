@@ -2,7 +2,7 @@
 
 import 'package:latlong2/latlong.dart';
 
-final defaultLatLng = _klaipedaLatLng;
+final defaultLatLng = _vilniusLatLng;
 
 final _vilniusLatLng = LatLng(54.68916, 25.2798);
 final _kaunasLatLng = LatLng(54.9, 23.9);
