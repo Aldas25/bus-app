@@ -54,6 +54,9 @@ dependencies:
       ref: main
   backdrop: ^0.8.0
 
+  vector_math: any
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
